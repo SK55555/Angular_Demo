@@ -1,0 +1,1129 @@
+
+Angular is Component Based Architecture
+INSTALLATION : 
+--------------
+
+
+1) goto nodejs.org
+2) to check version : npm -v
+3) For installing Typescript : npm install -g typescript
+4) Installing Angular CLI(Command line Interface) : npm install -g @angular/cli
+5) To check version of Angular : ng v
+
+
+TO CReate FOLDER : 
+------------------
+1) F:\ng new Foldername(Helloworld)
+2) Type y
+3) Select CSS 
+
+-----------------------: 
+
+Commands: 
+-----------------------:
+
+1) To compile Project : ng serve 
+   1.1)  on browser : localhost:4200
+
+2) TO Create Component for example employee: ng g c employee
+3) TO Create Module for example company : ng g module compnay
+
+4) to create component inside module : ng g c company/employeelogin
+
+5) If show port error :  ng serve --port 4201
+
+----------------------------------:
+
+1) Module : module are container jo logical component and services ki grouping hoti hai vo module. and hum multiple module kr skte hai .
+           
+       1.1) In module.ts we need to declare components,pipes,directives in decorator @ declarations section.
+        koi bhi module create krenge to app root module.ts k andar usko import krna hoga in @decorator.
+
+       1.2) In app.module.ts in import section we need to  initialize module name in decorator
+
+       1.3) Fetaure Module : har portal ka jo apna module hoga us portal k realated apne component and service hoga module ka reference hoga 
+        app.module.ts ko feature module kehte hai.
+
+       1.4) * Imp Note : EK module k andar agr me component declare krdu vahi ka module ka .To dusre module k andar me same component declare nahi kr skta. 
+        
+-------------------------------------------------------------------------------------------------------------------------------------------------
+2)Decorators :  
+    2.1 )Feature of TypeScript
+    2.2)Implemnted as functions
+    2.3)Stert with @ symbol following by brackets and Arguments
+    2.4)allow you to execute functions
+
+
+    Commons Decorators:
+    -------------------
+
+    1)@NgModule() to define modules.
+    2)@Component() to define components
+    3)@Injectable () to define Services.
+    4)@Input() and @Output() to define properties that send and receive data from the dom.
+
+    TYpe of Decorator: 
+    -----------------
+
+    1)Class Deco : exampele : @Component and @NgModule
+
+    2)Property Deco : for properties inside classes . Example @Inpur and @Output
+
+    3) Method Decorators : For method inside classes . Example : @HostListener
+
+    4)Parameter Deco : for paramerters inside class constructors Example : @Inject
+ 
+    --------------------------------------------------------------------
+    Imp: ** Jo bhi decorator hum create krte hai vo hume import krna hoga 
+    
+    Example :@Component({})
+
+    import { Component } from '@angular/core';
+
+    ---------------------------------------------------------------------
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+3) Services :  
+ 
+    3.1) To Create Service : ng g service myservice
+
+        ** After creating service we need to define service in module decorator section in providers :   
+
+       ** To call service in constructor : 
+
+        App.component.ts : 
+
+            import { Component, HostListener, Inject } from '@angular/core';
+            import { MyserviceService } from './myservice.service';
+
+          
+            export class AppComponent {
+            title = 'Tello-Torld';
+             
+            constructor(@Inject(MyserviceService)MyserviceService)  //initialize service in constructor with help of @Inject
+            {
+                console.log(MyserviceService);
+                console.log("Hi this is component");
+            }
+
+            @HostListener('click',['event'])
+            onhostclick(event:Event)
+            {
+                alert("Hello");
+            }
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+4) Component : Component is one or more which is handling the view . Component is also handling logic or HTML MArkup in view.In component
+               In component we also can manipulate the data.
+
+               Imp Note :  When we create any component , It gets defined in NgModule
+
+               @Component({
+                selector: 'app-root',                        //it represent html page defined in index html 
+                templateUrl: './app.component.html',
+                styleUrls: ['./app.component.css']
+                })
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+5) Directives : Directives are element which change the apperance or behavior of the DOM Element. 
+
+            5.1)  There are 3 Types of Directivbes : 
+
+                  Components : Direcetives with OWn template.   // changing html in component  
+
+                  IMP** : Without Component we cannot create application.
+
+                  Structural : Change DOM By adding reomoving Elements  //change html by true or false condition 
+
+                  Attribute : Change Apperance or behviour of the running. /changing html by example :  style color, etc.
+            
+            5.2) Three Type of Structural Directives: 
+
+                5.2.1) NgIf
+
+                      -- <div *ngIf="checkngif">This is ng if example</div> (app.component.html)
+                      --  checkngif=true;   (app.component.ts)
+
+                5.2.2) NgFor
+                5.2.3) NgSwitch
+
+                5.2.4) IF ELSE
+
+                 // (app.component.html)
+
+                      
+                    <div *ngIf="Isvalid; else elseblock">  Ths is Valid Data </div>
+                    <ng-template #elseblock>
+                    <div>This is not valid data</div>
+                    </ng-template>  
+
+                // (app.component.ts)
+
+                    Isvalid:boolean=true;
+                    changevalue(valid)
+                    {
+                        this.Isvalid=valid;
+                    }
+
+                5.2.5) SWITCH 
+
+                    (component.html)
+
+                       <select (change)="setvalue($event)">
+                        <option value="">--select--</option>
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                        <option value="another">Another</option>
+                        </select>
+
+                        <div [ngSwitch]="choose"> 
+                            <h3 *ngSwitchCase="'one'">First</h3>
+                            <h3 *ngSwitchCase="'two'">Second</h3>
+                            <h3 *ngSwitchCase="'three'">Third</h3>
+                            <h3 *ngSwitchDefault>Default</h3>
+
+                        </div> 
+
+
+                    (component.ts)
+
+                    public choose='';
+                    setvalue(drp:any)
+                    {
+                    this.choose=drp.target.value;
+                    }
+
+
+                5.2.6)For
+
+                (component.ts)
+
+
+                 Students:any[]=[
+                    {
+                    'name':'Sagar Daslani'
+                    },
+                    {
+                    'name':'Ajay Kumar'
+                    },
+                    {
+                    'name':'Neel Kumar'
+                    },
+                    {
+                    'name':'Jay Kumar'
+                    },
+                    {
+                    'name':'Paresh Kumar'
+                    },
+                ];
+
+
+                (component.html)
+
+                <ul>
+                <li *ngFor="let students of Students; let i=index ; let f=first; let l=last">
+                {{i+1}} {{students.name}} - {{f}} - {{l}}
+                </li>
+                </ul>
+
+                
+            5.3) Two Type of Atrribute Directives: 
+
+                5.3.1) NgStyle
+                5.3.2) ngClass
+
+             
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+6)Interpolation :      Interpolation means when any data assign to variable and bind in html called interpolation in simple term.
+
+                       Example :
+
+                        app.component.ts file:
+                                    empfirstname:string='Ajeet';
+                                    emplastname:string='singh';
+
+                                    app.component.html file:
+                                     
+                                      {{ empfirstname+ ' '+emplastname}}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+7)Property Binding:  Property binding is the one which bind the data in html property below example:
+
+                    Example :
+
+                        app.component.ts file:
+                                    empfirstname:string='Ajeet';
+                                    emplastname:string='singh';
+
+                                    app.component.html file:
+                                     
+                                     <span [innerHTML]='empfirstname'></span> //bind data with property
+                                       <img [src]="'https://xyz'">  //bind image
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+8) Attribute Binding:  Attribute binding is the one which bind the data in html property below example:
+
+                    Example :
+
+                        app.component.ts file:
+                             cols:number=3;
+                                
+                        app.component.html file:
+                                 
+                                 <td[attr.colspan="cols"]>Student Details</td>
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+8) Event Binding example Binding:  
+
+
+                   Example :
+
+                        app.component.ts file:
+                           
+                           //Event binding example
+
+                                    showdata()
+                                    {
+                                        alert ("Event binding example");
+                                    }
+
+                                    show()
+
+                                    {
+                                        alert('Hello')
+                                    }
+                                
+                        app.component.html file:
+                                 
+                                 <button (click)="showdata()">Click me </button>
+
+                                 <button (click)="show()">Show </button>
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+9) Two way Data Binding :
+
+Used in the input type field or any form element where user type or provide any value or chnage any control value in the one side, and on the other side,
+same automatically updated in to the controller variables.
+
+  <!-- Two Way Data Binding -->
+    
+            app.component.ts file
+ 
+             Data:string='Two way Data Binding';
+
+            app.component.html file
+
+            Enter your name : <input [value]='Data' (input)='Data=$event.target.value'><br/>
+
+            Your Name :{{Data}}
+
+
+
+
+
+            9.1) WIth NgModel Two way data Binding :
+
+            app.module.ts :
+
+            import { NgModule } from '@angular/core';
+
+            import {FormsModule} from '@angular/forms';
+
+
+                imports: [
+                BrowserModule,
+                AppRoutingModule,
+                CompnayModule,
+                FormsModule
+               ],
+
+
+             app.component.ts file
+ 
+               Data1:string='Two way Data Binding With Module';
+
+            app.component.html file
+
+            <input [(ngModel)]='Data1'><br/>
+             
+            Enter Name :{{Data1}}
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+10) PIPES : can be used to transform data to desired output.Pipes takes in a data input and transforms data to a different output.
+
+ eaxample " Input :pass@123
+ output: ***************
+
+
+
+ Types of Pipes: 1) Built-In Pipes  2) Custom Pipes
+
+ Type of Built-In Pipes : 1) Paramerterized 2) Chaining
+
+
+
+ Example : 
+
+
+ app.component.ts file :
+
+
+  employees :any[]=[
+
+    {
+      code:'emp001',name:'Chandan',gender:'male',salary:85000,dob:'02/aug/1990',per:0.1146568333457568
+    },
+    {
+      code:'emp002',name:'Soni',gender:'Female',salary:75000,dob:'03/aug/1990',per:0.1246568333457568
+    },
+    {
+      code:'emp003',name:'jay',gender:'male',salary:65000,dob:'04/aug/1990',per:0.1346568333457568
+    },
+    {
+      code:'emp004',name:'Rita',gender:'Female',salary:55000,dob:'05/aug/1990',per:0.1446568333457568
+    },
+    {
+      code:'emp005',name:'Nil',gender:'male',salary:35000,dob:'06/aug/1990',per:0.1546568333457568
+    },
+  ];
+
+
+  app.component.html :
+
+
+    <table border="1">
+               <tr>
+                 <th>Emp Code</th>
+                 <th>Emp name</th>
+
+                 <th>Gender</th>
+                 <th>Salary</th>
+                 <th>Date of Birth</th>
+                 <th>Date of Birth</th>
+                 <th>Percent</th>
+
+                 <th>Percent 2t</th>
+               </tr>
+               <tr *ngFor="let employee of employees">
+               <td>{{employee.code}}</td>
+               <td>{{employee.name | uppercase}}</td> <!--built-in pipe -->
+
+               <td>{{employee.gender }}</td> 
+               <td>{{employee.salary | currency:"USD":true}}</td>  <!--parameterized pipe -->
+               <td>{{employee.salary | currency:"INR":'code'}}</td>  <!--parameterized pipe -->
+               <td>{{employee.dob | date:"medium" }}</td> 
+               <td>{{employee.dob | date:"dd/MM/yyyy" }}</td>  <!--parameterized pipe -->
+               <td>{{employee.per |percent }}</td> 
+               <td>{{employee.per |percent :'2.4-8' }}</td> 
+               </tr>
+             </table>
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+    10.1 ) Custom Pipes :
+
+                      For creating Cuatom pipe command : ng g pipe mypipe --flat
+
+                      mypipe.pipe.ts file will creeate :
+
+                       transform(value: string, gender: string): string {
+    
+                        if(gender.toLowerCase()=="male")
+                        return "Mr."+value;
+                        else
+                        return "Miss."+value;
+                    }
+                       
+
+                       app.component.ts file :
+
+
+                        employees :any[]=[
+
+                            {
+                            code:'emp001',name:'Chandan',gender:'male',salary:85000,dob:'02/aug/1990',per:0.1146568333457568
+                            },
+                            {
+                            code:'emp002',name:'Soni',gender:'Female',salary:75000,dob:'03/aug/1990',per:0.1246568333457568
+                            },
+                            {
+                            code:'emp003',name:'jay',gender:'male',salary:65000,dob:'04/aug/1990',per:0.1346568333457568
+                            },
+                            {
+                            code:'emp004',name:'Rita',gender:'Female',salary:55000,dob:'05/aug/1990',per:0.1446568333457568
+                            },
+                            {
+                            code:'emp005',name:'Nil',gender:'male',salary:35000,dob:'06/aug/1990',per:0.1546568333457568
+                            },
+                        ];
+
+
+
+                    app.component.html :
+
+                       <td>{{employee.name | uppercase  | mypipe:employee.gender}}</td> <!--built-in pipe & Custom pipe --> 
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+11) Angular Routing : It i mechanism used by angular for nivagating between page and displaying appropriated component/page on browser.
+
+
+   How Angular Router works :
+
+    Step 1 : Parse the URL and create a router tree
+    Step 2 : Redirect
+
+            Two types of redirect : local and Absolute redirect
+
+            local redirect : does not start with a back slash 
+            example : {path:'one',redirectTo:'two'}
+
+            Absolute redirect : It does start with a back slash
+            example : {path:'one',redirectTo:'/two'}
+
+            Only one rediret is applied 
+   
+    Step 3: Identify the router state
+
+    Step 4 : Guard - run guards - check user is authorize or not / Give authenticataion
+
+    Step 5: Resolve - run resolvers
+
+    Step 6 : Acticate - will activate to component
+
+    Step 7 : Manage
+    
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+12) Router Outlet : 1) It is a dynamic component that the routes uses to displays views based on router navigation
+                    2) It is a Routing component. An Angular component with a RouterOutlet that displays views based on router navigations
+                    3) It tells the router where to display routed views
+
+                    To generate Routing Module : (Automatically generated)
+
+                    ng generate module app-routing--flat--module=app          
+
+
+                   File:  --app-routing-module.ts file:
+
+                   import { StudentComponent } from './student/student.component';
+                    import { StudentdetailsComponent } from './studentdetails/studentdetails.component';
+
+                    const routes: Routes = [
+  
+                          // Redirecting Routing
+                          {
+                            path :'',redirectTo:'student',pathMatch:'full'
+                          },
+
+                          //  Routing Link
+                          {
+                            path :'student',component:StudentComponent
+                          },
+                          {
+                            path:'studentdetails',component:StudentdetailsComponent
+                          }
+                        ];         
+
+                    File:  --app.component.ts file:  
+
+
+                    constructor(private router:Router){}
+
+                    student()
+                    {
+                      this.router.navigate(['/student']);
+                    }
+
+                    File:  --app.component.html file:  
+
+
+                      <h3>Router Link Example</h3>
+
+                      <a [routerLink]="['/student']">Student</a> <br/><br/>
+                      <a [routerLink]="['/studentdetails']">Student Details</a><br/>
+
+
+                      <button (click)="student()">Show Student</button>
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+13) WildCard Routing : Check Page not found 
+
+
+   File:  --app-routing-module.ts file:
+
+    {
+    path:'**',component:PagenotfoundComponent
+    }
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+14) Child Route :  https://youtu.be/F0bjNll5z5Y 
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+15) Service : Services are a piece of code that are used to perform a specific task, a service can contain a value or fnction or combinations of both.
+                it is a mechanism used to share functionality b/w the components.
+                It is simply a function that allows us to aess it's defined properties and methods.
+                It also helps to keep our coding organized
+
+
+              Step 1: Create the Service File
+                    Creating a  Service with Angular CLI :
+
+                    ng generate service myservicename
+
+              Step 2 : Import the Injectable Member
+                       
+                       At the top of your new services file, add: 
+
+                       import { injectable } from '@angular/core';
+
+              Step 3 : Add the Injectable Decorator
+
+                      @Injectable()
+
+              Step 4 : Export the Service Class
+
+                      export class ExampleService
+                      {
+                        //this is where your nethods and propertes go,for exampe:
+                        someMethod()
+                        {
+                          return 'Hey!';
+                        }
+                      }
+              
+              Step 5 : Import the Service to your Component :
+
+                    Choose a component file and at the top,you must include the service Member
+
+                    import {Component} from '@angular/core';
+                    import {ExampleService} from './example.service';
+
+              Step 6: Add it as a provider
+                
+                @component({
+                  selector:'my-app',
+                  template:'<h1>{{title}}<h1>',
+                  providers:[ExmpleService]
+                })
+
+              Step 7: Include it through dependency Injection
+
+               constructor(private_exampleService:ExampleService){}
+
+              Step 8:Using the Service
+
+              Now we can access the service method and properties by referencing the private_exampleService. For example :
+              
+              ngOnInit(){this.title=this._exampleService.someMethod();}
+
+              
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+16) Forms :
+           1)Template Driven Forms
+
+            Prerequisite : We need to import FormsModule in an application module file ( app.module.ts)
+           2) Model-driven forms (Reactive Forms)
+               Prerequisite : We need to import FormsModule in an application module file ( app.module.ts)
+
+            
+ -------------------------------------------------------------------------------------------------------------------------------------------------
+
+17) Install Bootsrap
+
+
+ cmd : npm install bootstrap --save
+
+ package.json : check version :  "bootstrap": "^4.4.1",
+
+
+ folder-check ->node_modules-> bootsrap->dist->css-bootsrap.min.css 
+
+
+ declare in angular.json file=   "styles": [
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+16) Forms :
+          1)Template Driven Forms
+
+          app.module.ts file : 
+
+          import{FormsModule} from '@angular/forms';
+
+                  @NgModule({
+          declarations: [
+            AppComponent
+          ],
+          imports: [
+            BrowserModule,
+            AppRoutingModule,
+            FormsModule
+          ],
+          providers: [],
+          bootstrap: [AppComponent]
+        })
+
+
+           app.component.ts file :
+
+                    <div class="container">
+                <div class="row">
+                  <div class="form-bg">
+                    <form #regForm='ngForm' (ngSubmit)="Register(regForm)">
+                      <h2 class="text-center">Registration Page</h2>
+
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="First Name" name="firstname" ngModel>
+                      </div>
+
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Last Name" name="lastname" ngModel>
+                      </div>
+
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Email Id" name="email" ngModel>
+                      </div>
+                    <div class="align-center">
+                        <button class="btn btn-warning" type="submit" id="register">Register</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
+          app.component.ts file : 
+
+
+              Register(regForm:any)
+              {
+                debugger;
+                var firstname=regForm.value.firstname;
+                var lastname=regForm.value.lastname;
+                var email=regForm.value.email;
+                console.log(regForm.value.firstname);
+              }
+
+
+
+
+
+
+      1.2)Template Driven Forms with Validation:
+
+      classes which will be attached whenever the state is changed :
+
+      *ng-touched :Controls have been visited.
+      *ng-untouched :Controls have not been visited.
+      *ng-dirty :Controls value have been changed.
+      *ng-pristine :Controls value have not been changed.
+      *ng-valid :Controls value valid
+      *ng-touched :Controls value are invalid
+
+
+      Example :
+      input.ng-invalid.ng-touched
+      {
+        border-color: red;
+      }
+
+
+      Example : 
+
+      app.component.html
+
+            <div class="container">
+          <div class="row">
+            <div class="form-bg">
+              <form #regForm='ngForm' (ngSubmit)="Register(regForm)">
+                <h2 class="text-center">Registration Page</h2>
+
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="First Name" name="firstname" required ngModel>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Last Name" name="lastname" required ngModel>
+                </div>
+
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Email Id" name="email" email required ngModel #email="ngModel">
+                  <span class="help-bpx" *ngIf="email.touched && !email.valid">Please enter email value</span>
+                </div>
+              <div class="align-center">
+                  <button class="btn btn-warning" type="submit" id="register" [disabled]="!regForm.valid">Register</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      
+      app.component.css File :
+
+          input.ng-invalid.ng-touched
+          {
+              border-color: red;
+          }
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+16) Reactive Forms :
+
+
+app.module.ts file : 
+
+
+import {ReactiveFormsModule} from '@angular/forms';
+
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+
+
+app.component.ts file :
+
+import { FormGroup,FormControl,FormBuilder,NgForm } from '@angular/forms';
+
+
+export class AppComponent {
+  title = 'Angular Reactive Forms';
+  signupForm:FormGroup;
+  FirstName:string="";
+  Lastname:string="";
+  Email:string="";
+  Password:string="";
+
+  constructor(private frmbuilder:FormBuilder)
+  {
+    this.signupForm=frmbuilder.group({
+    fname:new FormControl(),
+    lname:new FormControl(),
+    Emailid:new FormControl(),
+    userpassword:new FormControl()
+    });
+  }
+  ngOnInit()
+  {
+
+  }
+
+  PostData(signupForm:any)
+  {
+    this.FirstName=signupForm.controls.fname.value;
+    this.Lastname=signupForm.controls.lname.value;
+    this.Email=signupForm.controls.Emailid.value;
+    this.Password=signupForm.controls.userpassword.value;
+
+    console.log(this.FirstName)
+    console.log(signupForm.controls);
+  }
+
+
+}
+
+
+
+app.component.html :
+
+
+  <div class="container">
+    <div class="row">
+      <div class="form-bg">
+        <form [formGroup]='signupForm' (ngSubmit)="PostData(signupForm)">
+          <h2 class="text-center">Registration Page Reactive Forms</h2>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="First Name" formControlName='fname' >
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Last Name" formControlName='lname'>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Email Id" formControlName='Emailid' >
+           
+          </div>
+
+          <div class="form-group">
+            <input type="Password" class="form-control" placeholder="Your Password" formControlName='userpassword'>
+           
+          </div>
+         <div class="align-center">
+           <input type="submit" class="btn btn-warning" value="Post Data">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  17) Reactive Forms Validation :
+
+
+
+  app.component.ts   file :
+
+  import { FormGroup,FormControl,FormBuilder,NgForm, Validators } from '@angular/forms';
+
+
+
+  export class AppComponent {
+  title = 'Angular Reactive Forms';
+  signupForm:FormGroup;
+  FirstName:string="";
+  Lastname:string="";
+  Email:string="";
+  Password:string="";
+
+  constructor(private frmbuilder:FormBuilder)
+  {
+    this.signupForm=frmbuilder.group({
+    fname:['',Validators.required],
+    lname:['',Validators.required],
+    Emailid:['',Validators.required],
+    userpassword:['',Validators.required]
+    });
+  }
+  ngOnInit()
+  {
+
+  }
+
+  PostData(signupForm:any)
+  {
+    this.FirstName=signupForm.controls.fname.value;
+    this.Lastname=signupForm.controls.lname.value;
+    this.Email=signupForm.controls.Emailid.value;
+    this.Password=signupForm.controls.userpassword.value;
+
+    console.log(this.FirstName)
+    console.log(signupForm.controls);
+  }
+
+
+}
+
+app.component.html file
+
+<div class="content" role="main">
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="form-bg">
+        <form [formGroup]='signupForm' (ngSubmit)="PostData(signupForm)">
+          <h2 class="text-center">Registration Page Reactive Forms</h2>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="First Name" formControlName='fname' >
+            <span * ngFor="signupForm.control['fname'].haserror(required)">First Name Required</span>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Last Name" formControlName='lname'>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Email Id" formControlName='Emailid' >
+           
+          </div>
+
+          <div class="form-group">
+            <input type="Password" class="form-control" placeholder="Your Password" formControlName='userpassword'>
+           
+          </div>
+         <div class="align-center">
+           <input type="submit"  value="Post Data" [disabled]='!signupForm.valid'>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+app.component.css file
+
+input.ng-invalid.ng-touched
+{
+    border-color: red;
+}
+
+
+
+18)  FormGroup get value 
+
+
+
+app.component.html 
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="form-bg">
+        <form [formGroup]='signupForm'>
+          <h2 class="text-center">Registration Page Reactive Forms</h2>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="First Name" formControlName='fname' >
+            <!-- <span *ngIf="signupForm.controls['fname'].haserror(required)">First Name Required</span> -->
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Last Name" formControlName='lname'>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Email Id" formControlName='Emailid' >
+           
+          </div>
+
+          <div class="form-group">
+            <input type="Password" class="form-control" placeholder="Your Password" formControlName='userpassword'>
+           
+          </div>
+         <div class="align-center">
+           <button type="button" (click)="PostData()" [disabled]='!signupForm.valid'>Submit</button>
+
+           <button type="button" (click)="resetForm()">Reset</button>
+
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  app.component.ts file
+
+
+  import { FormGroup,FormControl,FormBuilder,NgForm, Validators } from '@angular/forms';
+
+
+  export class AppComponent {
+  title = 'Angular Reactive Forms';
+  signupForm:FormGroup;
+  FirstName:string="";
+  Lastname:string="";
+  Email:string="";
+  Password:string="";
+
+  constructor(private frmbuilder:FormBuilder)
+  {
+    this.signupForm=frmbuilder.group({
+    fname:['',Validators.required],
+    lname:['',Validators.required],
+    Emailid:['',Validators.required],
+    userpassword:['',Validators.required]
+    });
+  }
+  ngOnInit()
+  {
+
+  }
+
+  PostData()
+  {
+    this.FirstName=this.signupForm.get('fname').value;
+    console.log(this.FirstName)
+    
+  }
+
+  resetForm()
+  {
+    this.signupForm.reset();
+  }
+
+
+}
+
+
+
+
+
+
+18)  FormArray In Angular
+------------------------------------------
+
+
+import { FormGroup,FormControl,FormBuilder,NgForm, Validators, FormArray } from '@angular/forms';
+
+app.component.ts :
+
+ ngOnInit()
+  {
+   const arr=new FormArray([
+     new FormControl('Sagar'),
+     new FormControl('ABCD')
+
+   ]);
+   console.log(arr.value);
+   console.log(arr.status);
+  }
+
+
+  --------------------------
+
+  FONT AWESOME 
+
+  -------------------
+
+  npm install --save font-awesome
+
+  then include in ANGULAR.json
+
+    "styles": [
+              "src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.css"
+
+            ],
+
+
+
+ --------------------------------------------------------
+
+ main App Routing module add :
+
+
+ng generate module app-routing --flat --module=app
