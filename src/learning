@@ -1,0 +1,19 @@
+For Creating service :  ng g service services/services
+For Creating Components inside folder : ng g c students/add
+Bootstrap : npm install bootstrap --save
+            -- goto angular.josn file  :   In styles parameter
+
+            "styles": [
+              "src/styles.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "/node_modules/bootstrap/dist/css/bootstrap.min.css"
+
+            ],
+
+
+
+To create Forms need to import in app.module.ts file : import { FormsModule } from '@angular/forms';
+
+
+
+To create class in model : ng g class Model/ApiResponse
