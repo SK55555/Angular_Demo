@@ -9,12 +9,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./add.component.css']
 })
 export class AddComponent implements OnInit {
-
+ 
+  addForm: FormGroup;
+  message: any;
 
   constructor(private formBuilder: FormBuilder,private apiService: ServicesService,
     private router: Router) { }
 
-  addForm: FormGroup;
+ 
 
   ngOnInit() {
     this.addForm = this.formBuilder.group({
@@ -34,8 +36,12 @@ export class AddComponent implements OnInit {
 
     this.apiService.createUser(this.addForm.value)
       .subscribe( data => {
-        this.router.navigate(['Login']);
+        this.message = data.message;
+        // this.router.navigate(['Login']);
       });
+
+      this.addForm.reset();
   }
 
 }
+ 

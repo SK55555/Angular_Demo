@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
        
        this.message = data.message;
       // console.log(data.token);
+        console.log(this.message);
        if(data.token) {
            window.localStorage.setItem('token', data.token);
            this.router.navigate(['view']);

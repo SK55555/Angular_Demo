@@ -64,6 +64,26 @@
     text-decoration: none;
 }
 
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
     </style>
  <div id="services" class="scrollto clearfix"> 
 
@@ -79,7 +99,7 @@
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Your Password *" value="" />
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style=" margin-top: 3%; ">
                         <input type="submit" class="btnSubmit" value="Login" />
                     </div>
                     <div class="form-group">
@@ -89,9 +109,15 @@
             </div>
             <div class="col-md-6 login-form-2">
                 <h3>STUDENT LOGIN</h3>
-                <h3 *ngIf='message'>
+
+                <div class="alert" *ngIf='message'>
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                    <strong>  {{message}}</strong>
+                  </div>
+
+                <!-- <h3 *ngIf='message'>
                     {{message}}
-                   </h3>
+                   </h3> -->
 
                   
 
@@ -113,17 +139,18 @@
 
 
                     </div>
-                    <div class="form-group">
-                        <button class="btn btn-success btnSubmit" [disabled]="loginForm.invalid">Login</button>
+                    <div class="form-group" style="    margin-top: 3%;
+                    ">
+                        <button class="btn btn-success btnSubmit" [disabled]="loginForm.invalid" style="height: 40px;">Login</button>
                         <!-- <input type="submit" class="btnSubmit" value="Login" /> -->
                     </div>
                     <div class="form-group">
 
                         <a href="#" class="ForgetPwd" value="Login">Forget Password?</a>
 
-                        <div *ngIf="invalidLogin" class="error">
+                        <!-- <div *ngIf="invalidLogin" class="error">
                             <div class="txt-danger">Invalied user or password. Please try again</div>
-                          </div>
+                          </div> -->
                     </div>
                 </form>
             </div>
